@@ -1,0 +1,23 @@
+#!/bin/bash
+#SBATCH --job-name=refuel_gen     # create a short name for your job
+#SBATCH --nodes=1                # node count
+#SBATCH --ntasks=1               # total number of tasks across all nodes
+#SBATCH --cpus-per-task=96        # cpu-cores per task (>1 if multi-threaded tasks)
+#SBATCH --mem-per-cpu=10G         # memory per cpu-core (4G is default)
+#SBATCH --time=240:00:00          # total run time limit (HH:MM:SS)
+#SBATCH --mail-type=begin        # send email when job begins
+#SBATCH --mail-type=end          # send email when job ends
+#SBATCH --mail-type=fail         # send email if job fails
+#SBATCH --mail-user=wz3993@princeton.edu
+#SBATCH --gres=gpu:8
+#SBATCH --partition=pli
+#SBATCH --account=rlhfopt
+
+module purge
+module load anaconda3/2023.9
+conda activate refuel
+export WANDB_MODE=offline
+export HF_HOME='/scratch/gpfs/wz3993/'
+cd /home/wz3993/REFUEL/
+
+python ./setting_one/generate.py --output_dir /home/wz3993/REFUEL/gen1 --output_repo whzhan/refuel --world_size 8
