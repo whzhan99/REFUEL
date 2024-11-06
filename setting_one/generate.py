@@ -7,6 +7,7 @@ import random
 import time
 import subprocess
 import numpy as np
+from huggingface_hub import login
 
 
 def set_seed(seed=5775709):
@@ -93,6 +94,8 @@ def parse_arguments():
 
 
 if __name__ == "__main__":
+    # login
+    login(token="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")
 
     # init
     args = parse_arguments()
